@@ -15,8 +15,8 @@ class ChatServer:
         print(f"Servidor escuchando en {self.host}:{self.port}")
 
     def broadcast(self, mensaje, origen=None):
-        with self.lock:  # protege la lista mientras iteramos
-            for cliente in self.clientes[:]:  # copia para poder borrar mientras iteramos
+        with self.lock:  # protege la lista de clientes
+            for cliente in self.clientes[:]:  # crea una copia de la lista
                 if cliente.socket != origen:
                     try:
                         cliente.socket.send(mensaje)
@@ -33,17 +33,17 @@ class ChatServer:
         
         while cliente.conectado:
             try:
-                datos = cliente_socket.recv(1024)
+                datos = cliente_socket.recv(1024) # recibe el mensaje del cliente
                 if not datos:
                     break
-                self.broadcast(datos, cliente_socket)
+                self.broadcast(datos, cliente_socket) # reenvía el mensaje a todos menos al origen
             except:
                 break
                 
         cliente.desconectar()
         with self.lock:
             if cliente in self.clientes:
-                self.clientes.remove(cliente)
+                self.clientes.remove(cliente) # elimina al cliente de la lista cuando se desconecta
         self.broadcast(f"¡{direccion} se desconectó\n".encode('utf-8'))
 
     def iniciar(self):
@@ -51,10 +51,10 @@ class ChatServer:
             cliente_socket, direccion = self.servidor.accept()
             hilo = threading.Thread(
                 target=self.manejar_cliente,
-                args=(cliente_socket, direccion)
+                args=(cliente_socket, direccion) # pone de parametros la ip y el puerto del cliente
             )
             hilo.daemon = True
-            hilo.start()
+            hilo.start() # Crea un hilo para cada cliente conectado al servidor
 
 
 class Cliente:
@@ -68,10 +68,10 @@ class Cliente:
         if self.conectado:
             self.conectado = False
             try:
-                self.socket.close()
+                self.socket.close() # Elimina el hilo del cliente cuando se desconecta
             except:
                 pass
 
 if __name__ == "__main__":
     servidor = ChatServer(port=50000)
-    servidor.iniciar()
+    servidor.iniciar() # Inicia el servidor

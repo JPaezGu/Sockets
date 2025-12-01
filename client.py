@@ -6,33 +6,33 @@ class ChatClient:
     def __init__(self, host='192.168.0.11', port=50000):
         self.host = host
         self.port = port
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
         self.conectado = False
 
     def conectar(self):
         try:
-            self.socket.connect((self.host, self.port))
+            self.socket.connect((self.host, self.port)) # Conecta el cliente al servidor
             self.conectado = True
-            print(f"¡Conectado al servidor {self.host}:{self.port}!")
-            print("Escribe tus mensajes y pulsa Enter.")
+            print(f"Conectado al servidor {self.host}:{self.port}")
+            print("Escribe mensajes y pulsa Enter.")
             print("Escribe '/salir' para desconectarte.\n")
         except Exception as e:
             print(f"No se pudo conectar al servidor: {e}")
-            sys.exit()
+            sys.exit() # Si no se puede conectar, sale del programa, para evitar intentos infinitos de conexión
 
     def recibir_mensajes(self):
         while self.conectado:
             try:
-                mensaje = self.socket.recv(1024)
+                mensaje = self.socket.recv(1024) # Espera mensajes del servidor
                 if not mensaje:
                     print("\nSe perdió la conexión")
-                    self.desconectar()
+                    self.desconectar() # Si no hay mensaje, se desconecta
                     break
                 print(mensaje.decode('utf-8'), end='')
             except:
                 if self.conectado:
                     print("\nSe perdió la conexión")
-                self.desconectar()
+                self.desconectar() # Se desconecta en caso de un error
                 break
 
     def enviar_mensajes(self):
@@ -52,28 +52,20 @@ class ChatClient:
         if self.conectado:
             self.conectado = False
             try:
-                self.socket.close()
+                self.socket.close() # Cierra la conexión con el servidor cuando el cliente se sale del chat
             except:
                 pass
-            print("\nTe has desconectado. ¡Hasta pronto!")
+            print("\nTe has desconectado del chat.")
 
     def iniciar(self):
-        self.conectar()
+        self.conectar() # Conecta al cliente al servidor
         
-        # Hilo para recibir mensajes del servidor
-        hilo_recepcion = threading.Thread(target=self.recibir_mensajes)
+        hilo_recepcion = threading.Thread(target=self.recibir_mensajes) # Enlaza un hilo para recibir los mensajes del servidor
         hilo_recepcion.daemon = True
-        hilo_recepcion.start()
+        hilo_recepcion.start() # Inicia el hilo de recepción de mensajes
 
-        # El hilo principal se encarga de escribir mensajes
-        self.enviar_mensajes()
+        self.enviar_mensajes() # Un hilo principal que envia los mensajes al servidor
 
-
-# ============ INICIO ============
-if __name__ == "__main__":
-    # Puedes cambiar la IP y puerto aquí fácilmente
-    # Ejemplo para conectar desde otro dispositivo en la misma red:
-    # cliente = ChatClient(host='192.168.1.37', port=55555)
-    
-    cliente = ChatClient(host='192.168.0.11', port=50000)  # localhost por defecto
-    cliente.iniciar()
+if __name__ == "__main__": 
+    cliente = ChatClient(host='192.168.0.11', port=50000)
+    cliente.iniciar() # Inicia el cliente
