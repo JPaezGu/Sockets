@@ -41,11 +41,11 @@ class ChatClient:
                 texto = input("")
                 if texto.lower().strip() == "/salir":
                     self.socket.send("/salir".encode('utf-8'))
-                    self.desconectar()
+                    self.desconectar() # Envía el comando de salir al servidor y se desconecta
                     break
                 self.socket.send(f"{texto}\n".encode('utf-8'))
             except:
-                self.desconectar()
+                self.desconectar() # Se desconecta en caso de un error
                 break
 
     def desconectar(self):
