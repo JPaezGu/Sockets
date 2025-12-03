@@ -33,10 +33,10 @@ El cliente tiene una interfaz gráfica para un mejor aspecto del chat.
    - Confirmación al cerrar la ventana con `messagebox.askokcancel`.  
    - Cierre limpio del socket al desconectarse.
 
-    Características técnicas 
+    CARACTERÍSTICAS TÉCNICAS
 - Uso exclusivo de la biblioteca estándar de Python (sin dependencias externas).  
 - Totalmente multiplataforma (Windows, Linux, macOS).  
-- Diseño oscuro moderno y ventana de tamaño fijo.  
+- Diseño simple y moderno con ventana de tamaño fijo.  
 - Scroll automático al último mensaje recibido.
 
     REQUISITOS
