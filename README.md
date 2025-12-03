@@ -40,19 +40,23 @@ El cliente tiene una interfaz gráfica para un mejor aspecto del chat.
 - Scroll automático al último mensaje recibido.
 
     REQUISITOS
-Python 3.6 o superior.  
-No requiere instalación de paquetes adicionales (ya que todas las librerias usadas vienen por defecto con python).
+- Python 3.6 o superior.  
+- No requiere instalación de paquetes adicionales (ya que todas las librerias usadas vienen por defecto con python).
 
     CONFIGURACIÓN DE USO
 1. Abra cmd en su dispositivo e ingrese el comando "ipconfig", busque la linea de IPv4, copie y pegue en el siguiente espacio del código "client.py" y "server.py": 
     CLIENTE
+
 ![alt text](image.png)
+
     SERVIDOR
+
 ![alt text](image.png)
+
 (Asegurese de que la IP y el Puerto sean el mismo, usa un puerto libre, ejemplo: "20000","23456","55555")
 
 1. Ejecutar el cliente ():
-    Cree una terminal y copie el siguiente comando(asegurese de tener el mismo nombre del archivo="client.py"):
+    Cree una terminal y copie el siguiente comando (asegurese de tener el mismo nombre del archivo="client.py"):
    ```python
    python client.py
    ```
@@ -74,16 +78,16 @@ El dispositivo Tiene que estar conectado al mismo router que el del servidor (No
 
     EXPLICACIÓN CÓDIGO
 ```python
-self.entrada = tk.Entry(frame_inf, width=42, font=("Segoe UI", 11), # Imput de texto para envio de mensajes
+    self.entrada = tk.Entry(frame_inf, width=42, font=("Segoe UI", 11), # Imput de texto para envio de mensajes
                                 bg="#2d3436", fg="white", insertbackground="white")
-self.entrada.pack(side=tk.LEFT, padx=5)
-self.entrada.bind("<Return>", self.enviar_mensaje)
-self.entrada.focus()
+    self.entrada.pack(side=tk.LEFT, padx=5)
+    self.entrada.bind("<Return>", self.enviar_mensaje)
+    self.entrada.focus()
 ```
 
 ```python
 # Cliente - Eco (Muestra tu propio mensaje)
-self.mostrar_mensaje(f"Tú: {mensaje}\n", "propio") 
+    self.mostrar_mensaje(f"Tú: {mensaje}\n", "propio") 
 ```
 
 ```python
@@ -110,8 +114,9 @@ self.mostrar_mensaje(f"Tú: {mensaje}\n", "propio")
                     self.mostrar_mensaje(mensaje, "otros") # Muestra mensajes recibidos de otros usuarios
 ```
 
+
     Notas finales
 - Pueden crearse la cantidad de clientes que desee en un mismo dispositivo (Recomendado máximo 6 usuarios) 
-- El puerto debe estar libre y no bloqueado por firewall. (Dar permisos)  
-- Ideal para uso educativo, pruebas locales o redes internas.(Empleados en un mismo edificio)
+- El puerto debe estar libre y no bloqueado por firewall (Dar permisos)  
+- Ideal para uso educativo, pruebas locales o redes internas (Empleados en un mismo edificio)
 - Despues de que se desconecte, perderá toda la información (Ideal para información efímera)
